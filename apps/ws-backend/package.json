@@ -9,9 +9,11 @@
     "dev": "nodemon ./src/index.ts"
   },
   "dependencies": {
-    "@repo/db": "workspace:*",
     "@repo/backend-common": "workspace:*",
+    "@repo/db": "workspace:*",
+    "@types/jsonwebtoken": "^9.0.9",
     "@types/ws": "^8.5.14",
+    "jsonwebtoken": "^9.0.2",
     "ws": "^8.18.1"
   },
   "devDependencies": {

@@ -122,7 +122,23 @@ exports.Prisma.UserScalarFieldEnum = {
   createdAt: 'createdAt',
   username: 'username',
   password: 'password',
-  name: 'name'
+  name: 'name',
+  photo: 'photo'
+};
+
+exports.Prisma.RoomScalarFieldEnum = {
+  id: 'id',
+  slug: 'slug',
+  createdAt: 'createdAt',
+  adminId: 'adminId'
+};
+
+exports.Prisma.ChatScalarFieldEnum = {
+  id: 'id',
+  message: 'message',
+  createdAt: 'createdAt',
+  roomId: 'roomId',
+  userId: 'userId'
 };
 
 exports.Prisma.SortOrder = {
@@ -135,9 +151,16 @@ exports.Prisma.QueryMode = {
   insensitive: 'insensitive'
 };
 
+exports.Prisma.NullsOrder = {
+  first: 'first',
+  last: 'last'
+};
+
 
 exports.Prisma.ModelName = {
-  user: 'user'
+  User: 'User',
+  Room: 'Room',
+  Chat: 'Chat'
 };
 
 /**

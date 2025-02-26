@@ -31,8 +31,6 @@ loginRouter.post("/signup", async (req, res) => {
 });
 
 loginRouter.post("/signin", async (req, res) => {
-  const { username, password } = req.body;
-
   const parsed = signinSchema.safeParse(req.body);
 
   if (!parsed.success) {
@@ -43,16 +41,16 @@ loginRouter.post("/signin", async (req, res) => {
   try {
     const user = await prisma.user.findUnique({
       where: {
-        username,
+        username: parsed.data.username,
       },
     });
 
-    if (!user || user.password !== password) {
+    if (!user || user.password !== parsed.data.password) {
       res.status(400).json("user doesnt exist or password is incorrect");
       return;
     }
 
-    const token = jwt.sign({ username: user.username }, jwt_secret);
+    const token = jwt.sign({ userId: user?.id }, jwt_secret);
     res.status(200).json(`${token}`);
   } catch (error) {
     res.status(400).json(`error signing in the user`);

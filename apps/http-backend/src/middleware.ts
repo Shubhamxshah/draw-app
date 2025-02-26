@@ -8,8 +8,8 @@ export function middleware(req: Request, res: Response, next: NextFunction) {
   try {
     const decoded = jwt.verify(token, jwt_secret!) as JwtPayload;
 
-    if (decoded && typeof decoded === "object" && "username" in decoded) {
-      req.username = decoded.username;
+    if (decoded && typeof decoded === "object" && "userId" in decoded) {
+      req.userId = decoded.userId;
       next();
     } else {
       res.status(403).json({
