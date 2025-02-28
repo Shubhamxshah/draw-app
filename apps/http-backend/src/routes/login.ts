@@ -3,6 +3,7 @@ import { prisma } from "@repo/db";
 import jwt from "jsonwebtoken";
 import { signupSchema, signinSchema } from "@repo/common/types";
 import { jwt_secret } from "@repo/backend-common"
+import bcrypt from "bcrypt";
 
 const loginRouter = Router();
 
@@ -17,10 +18,12 @@ loginRouter.post("/signup", async (req, res) => {
   }
    
   try {
+    const hashedpw = await bcrypt.hash(password, 10);
+
     const user = await prisma.user.create({
       data: {
         username,
-        password,
+        password: hashedpw,
         name,
       },
     });
@@ -45,13 +48,19 @@ loginRouter.post("/signin", async (req, res) => {
       },
     });
 
-    if (!user || user.password !== parsed.data.password) {
-      res.status(400).json("user doesnt exist or password is incorrect");
+    if (!user) {
+      res.status(400).json("username doesnt exist");
       return;
     }
 
-    const token = jwt.sign({ userId: user?.id }, jwt_secret);
-    res.status(200).json(`${token}`);
+    const isPasswordValid = await bcrypt.compare(parsed.data.password, user.password);
+
+    if (isPasswordValid){
+      const token = jwt.sign({ userId: user?.id }, jwt_secret);
+      res.status(200).json(`${token}`);
+    } else {
+      res.status(400).json({message: "the password is invalid"});
+    }
   } catch (error) {
     res.status(400).json(`error signing in the user`);
   }

@@ -4,14 +4,16 @@
   "main": "index.js",
   "scripts": {
     "test": "",
-    "start": "node ./dist/index.js",
-    "build": "tsc -b",
-    "dev": "nodemon ./src/index.ts"
+    "start": "node init && node ./dist/index.js",
+    "build": "node init && tsc -b",
+    "dev": "node init && nodemon ./src/index.ts"
   },
   "dependencies": {
-    "@repo/db": "workspace:*",
     "@repo/backend-common": "workspace:*",
     "@repo/common": "workspace:*",
+    "@repo/db": "workspace:*",
+    "@types/bcrypt": "^5.0.2",
+    "bcrypt": "^5.1.1",
     "cors": "^2.8.5",
     "express": "^4.21.2",
     "jsonwebtoken": "^9.0.2",
